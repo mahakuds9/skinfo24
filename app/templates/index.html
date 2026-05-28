@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saroj Kumar Mahakud | Application Support Engineer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">Saroj Kumar Mahakud<span>.</span></div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Hi, I am <span>Saroj</span></h1>
+            <h2 class="typing"></h2>
+            <p>5+ years of experience in Application Support, Incident Management, and IT Operations</p>
+            <a href="/about" class="btn">Know More</a>
+
+            <!-- ARROW 1 — Goes to Skills -->
+            <div class="scroll-arrow" onclick="document.querySelector('.skills').scrollIntoView({behavior: 'smooth'})">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills">
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill">🐧 Linux</div>
+            <div class="skill">🐍 Python</div>
+            <div class="skill">💻 Shell Scripting</div>
+            <div class="skill">🗄️ MySQL</div>
+            <div class="skill">🎫 ServiceNow</div>
+            <div class="skill">☁️ AWS</div>
+            <div class="skill">🔧 Git</div>
+            <div class="skill">📊 Grafana</div>
+        </div>
+
+        <!-- ARROW 2 — Goes to Experience -->
+        <div class="scroll-arrow" onclick="document.querySelector('.experience').scrollIntoView({behavior: 'smooth'})">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="experience">
+        <h2>Experience</h2>
+        <div class="exp-grid">
+            <div class="exp-card" onclick="window.location.href='/about#concentrix'" style="cursor:pointer;">
+                <h3>Concentrix</h3>
+                <p>Application Support Engineer — L1 & L2</p>
+                <span>5 Years</span>
+            </div>
+            <div class="exp-card" onclick="window.location.href='/about#ntt'" style="cursor:pointer;">
+                <h3>NTT Data</h3>
+                <p>Helpdesk Associate</p>
+                <span>Short Stint</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 Saroj Kumar Mahakud. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

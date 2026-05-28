@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Saroj Kumar Mahakud</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">Saroj<span>.</span></div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- ABOUT HERO -->
+    <section class="page-hero">
+        <h1>About <span>Me</span></h1>
+        <p>My journey, experience and passion for IT Support</p>
+    </section>
+
+    <!-- MY STORY -->
+    <section class="story">
+        <div class="story-content">
+            <h2>My <span>Story</span></h2>
+            <p>
+                I am Saroj Kumar Mahakud, an Application Support Engineer with 5+ years of experience 
+                in IT support, incident management, and IT operations. I started my journey with a 
+                background in Chemistry and transitioned into the IT industry — proving that passion 
+                and dedication can take you anywhere.
+            </p>
+            <p>
+                Over the years I have worked with global clients, managed critical incidents, 
+                handled escalations, and built strong expertise in Linux, Python, Shell Scripting, 
+                MySQL and cloud technologies like AWS.
+            </p>
+            <p>
+                I believe in continuous learning and I am always looking to grow — which is why 
+                I am currently building real-world projects to strengthen my practical skills.
+            </p>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="timeline-section">
+        <h2>My <span>Journey</span></h2>
+        <div class="timeline">
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Concentrix — L1 Support</h3>
+                    <span class="year">2020 — 2022</span>
+                    <p>Started as L1 Application Support Engineer supporting Lenovo account. Handled hardware and software incidents, logged tickets in ServiceNow and resolved customer issues.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" id="concentrix">
+                    <h3>Concentrix — L2 Support</h3>
+                    <span class="year">2022 — 2025</span>
+                    <p>Promoted to L2 Support Engineer. Handled escalated tickets, performed root cause analysis, provided resolutions and ensured problem management using ServiceNow and Jira.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" id="ntt">
+                    <h3>NTT Data — Helpdesk</h3>
+                    <span class="year">2025</span>
+                    <p>Joined NTT Data handling end user application support — login issues, password resets, BitLocker and printer issues. Managed full ticket lifecycle using ServiceNow.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>Self Learning & Projects</h3>
+                    <span class="year">2025 — Present</span>
+                    <p>Upskilling with Linux, Python, Shell Scripting, MySQL, AWS and Git. Building real world projects including this portfolio deployed on AWS EC2.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SKILLS PROGRESS -->
+    <section class="skills-progress">
+        <h2>My <span>Expertise</span></h2>
+        <div class="progress-grid">
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Linux</span>
+                    <span>80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-width="80"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Shell Scripting</span>
+                    <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-width="75"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Python</span>
+                    <span>70%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-width="70"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>MySQL</span>
+                    <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-width="75"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>ServiceNow</span>
+                    <span>85%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-width="85"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Jira</span>
+                    <span>80%</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" data-width="80"></div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>AWS</span>
+                    <span>60%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-width="60"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 Saroj Kumar Mahakud. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
