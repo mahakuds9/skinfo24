@@ -2,3 +2,7 @@ key.pem
 logs/
 __pycache__/
 *.pyc
+key.pem
+logs/
+__pycache__/
+*.pyc
