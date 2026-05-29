@@ -4,8 +4,8 @@
 # Monitors skinfo24.xyz and logs status
 
 WEBSITE="https://skinfo24.xyz"
-LOG_FILE="/home/ubuntu/skinfo24/logs/monitor.log"
-ALERT_FILE="/home/ubuntu/skinfo24/alerts/alert.log"
+LOG_FILE="/home/saroj/skinfo24/logs/monitor.log"
+ALERT_FILE="/home/saroj/skinfo24/alerts/alert.log"
 DATE=$(date '+%Y-%m-%d %H:%M:%S')
 
 # Check website status
