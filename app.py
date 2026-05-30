@@ -68,24 +68,29 @@ def api_tickets():
             data = response.json()
             tickets = []
             for issue in data.get('issues', []):
-                fields = issue.get('fields', {})
+                fields = issue.get('fields') or {}
                 created_raw = fields.get('created', '')
                 try:
                     created_dt = datetime.strptime(created_raw[:19], '%Y-%m-%dT%H:%M:%S')
                     created = created_dt.strftime('%Y-%m-%d %H:%M')
                 except:
-                    created = created_raw[:16]
+                    created = created_raw[:16] if created_raw else 'Unknown'
 
                 tickets.append({
-                    'key': issue.get('key'),
-                    'summary': fields.get('summary', 'No summary'),
-                    'status': fields.get('status', {}).get('name', 'Unknown'),
-                    'priority': fields.get('priority', {}).get('name', 'Medium'),
+                    'key': issue.get('key', 'Unknown'),
+                    'summary': fields.get('summary') or 'No summary',
+                    'status': (fields.get('status') or {}).get('name', 'Unknown'),
+                    'priority': (fields.get('priority') or {}).get('name', 'Medium'),
                     'created': created
                 })
-            return jsonify({"tickets": tickets})
+            return jsonify({"tickets": tickets, "total": len(tickets)})
         else:
-            return jsonify({"error": f"Jira API error: {response.status_code}"})
+            return jsonify({"error": f"Jira API error: {response.status_code} — {response.text}"})
+
+    except requests.exceptions.Timeout:
+        return jsonify({"error": "Jira API timeout"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
     except requests.exceptions.Timeout:
         return jsonify({"error": "Jira API timeout"})
