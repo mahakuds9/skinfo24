@@ -47,7 +47,7 @@ def api_tickets():
         if not all([JIRA_EMAIL, JIRA_API_TOKEN, JIRA_SITE, JIRA_PROJECT]):
             return jsonify({"error": "Jira credentials not configured"})
 
-        url = f"https://{JIRA_SITE}/rest/api/3/search"
+        url = f"https://{JIRA_SITE}/rest/api/3/search/jql"
         auth = (JIRA_EMAIL, JIRA_API_TOKEN)
         headers = {"Accept": "application/json"}
         params = {
