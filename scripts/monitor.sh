@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ========== WEBSITE MONITOR SCRIPT ==========
-WEBSITE="https://skinfo24.xyz"
+WEBSITE="http://127.0.0.1:5000"
 LOG_FILE="/home/ubuntu/skinfo24/logs/monitor.log"
 ALERT_FILE="/home/ubuntu/skinfo24/alerts/alert.log"
 TICKET_FILE="/home/ubuntu/skinfo24/alerts/open_ticket.txt"
