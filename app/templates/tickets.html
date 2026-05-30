@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets | Saroj Kumar Mahakud</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">Saroj<span>.</span></div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/tickets">Tickets</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <h1>Incident <span>Tickets</span></h1>
+        <p>Live Jira ticket dashboard — powered by Jira Service Management API</p>
+    </section>
+
+    <!-- STATS -->
+    <section class="ticket-stats">
+        <div class="stat-card" id="totalCard">
+            <h3 id="totalCount">...</h3>
+            <p>Total Tickets</p>
+        </div>
+        <div class="stat-card open" id="openCard">
+            <h3 id="openCount">...</h3>
+            <p>Open</p>
+        </div>
+        <div class="stat-card progress" id="progressCard">
+            <h3 id="progressCount">...</h3>
+            <p>In Progress</p>
+        </div>
+        <div class="stat-card resolved" id="resolvedCard">
+            <h3 id="resolvedCount">...</h3>
+            <p>Resolved</p>
+        </div>
+    </section>
+
+    <!-- TICKETS TABLE -->
+    <section class="tickets-section">
+        <div class="tickets-header">
+            <h2>All <span>Incidents</span></h2>
+            <button class="btn" onclick="loadTickets()">🔄 Refresh</button>
+        </div>
+        <div class="tickets-table" id="ticketsTable">
+            <div class="loading">Loading tickets...</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 Saroj Kumar Mahakud. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        async function loadTickets() {
+            document.getElementById('ticketsTable').innerHTML = '<div class="loading">Loading tickets...</div>';
+            
+            try {
+                const response = await fetch('/api/tickets');
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('ticketsTable').innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                    return;
+                }
+
+                const tickets = data.tickets;
+                let total = tickets.length;
+                let open = 0;
+                let inProgress = 0;
+                let resolved = 0;
+
+                let html = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Summary</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                tickets.forEach(ticket => {
+                    const status = ticket.status.toLowerCase();
+                    let statusClass = 'status-open';
+                    let statusEmoji = '🔴';
+
+                    if (status.includes('progress')) {
+                        statusClass = 'status-progress';
+                        statusEmoji = '🟡';
+                        inProgress++;
+                    } else if (status.includes('resolve') || status.includes('done') || status.includes('close')) {
+                        statusClass = 'status-resolved';
+                        statusEmoji = '🟢';
+                        resolved++;
+                    } else {
+                        open++;
+                    }
+
+                    html += `
+                        <tr>
+                            <td><span class="ticket-id">${ticket.key}</span></td>
+                            <td>${ticket.summary}</td>
+                            <td><span class="${statusClass}">${statusEmoji} ${ticket.status}</span></td>
+                            <td>${ticket.priority}</td>
+                            <td>${ticket.created}</td>
+                        </tr>
+                    `;
+                });
+
+                html += '</tbody></table>';
+                document.getElementById('ticketsTable').innerHTML = html;
+
+                document.getElementById('totalCount').textContent = total;
+                document.getElementById('openCount').textContent = open;
+                document.getElementById('progressCount').textContent = inProgress;
+                document.getElementById('resolvedCount').textContent = resolved;
+
+            } catch (error) {
+                document.getElementById('ticketsTable').innerHTML = `<div class="error">Failed to load tickets: ${error}</div>`;
+            }
+        }
+
+        // Load tickets on page load
+        loadTickets();
+
+        // Auto refresh every 60 seconds
+        setInterval(loadTickets, 60000);
+    </script>
+</body>
+</html>
