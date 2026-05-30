@@ -49,11 +49,12 @@ def create_incident(status_code):
     })
 
     response = requests.post(
-        f"{JIRA_URL}/rest/api/3/issue",
-        headers=HEADERS,
-        auth=AUTH,
-        data=payload
-    )
+    f"{JIRA_URL}/rest/api/3/issue",
+    headers=HEADERS,
+    auth=AUTH,
+    data=payload,
+    timeout=10
+)
 
     if response.status_code == 201:
         ticket = response.json()
@@ -100,6 +101,7 @@ def resolve_incident():
             headers=HEADERS,
             auth=AUTH,
             data=payload
+            timeout=10
         )
         print(f"✅ Ticket {ticket_id} resolved!")
         os.remove(ticket_file)
