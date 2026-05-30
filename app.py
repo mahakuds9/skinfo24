@@ -45,11 +45,19 @@ def tickets():
 def api_tickets():
     try:
         if not all([JIRA_EMAIL, JIRA_API_TOKEN, JIRA_SITE, JIRA_PROJECT]):
-            return jsonify({"error": "Jira credentials not configured"})
+            return jsonify({"error": "Jira credentials not configured", 
+                          "debug": {
+                              "email": str(JIRA_EMAIL),
+                              "site": str(JIRA_SITE),
+                              "project": str(JIRA_PROJECT),
+                              "token": "SET" if JIRA_API_TOKEN else "NOT SET"
+                          }})
 
         url = f"https://{JIRA_SITE}/rest/api/3/search/jql"
         auth = (JIRA_EMAIL, JIRA_API_TOKEN)
         headers = {"Accept": "application/json"}
+
+        # First try with fields
         params = {
             "jql": f"project={JIRA_PROJECT} ORDER BY created DESC",
             "maxResults": 50,
@@ -61,41 +69,69 @@ def api_tickets():
             headers=headers,
             auth=auth,
             params=params,
-            timeout=10
+            timeout=15
         )
+
+        # Log raw response for debugging
+        logging.info(f"Jira response status: {response.status_code}")
+        logging.info(f"Jira response: {response.text[:500]}")
 
         if response.status_code == 200:
             data = response.json()
+            raw_issues = data.get('issues', [])
             tickets = []
-            for issue in data.get('issues', []):
+
+            for issue in raw_issues:
                 fields = issue.get('fields') or {}
                 created_raw = fields.get('created', '')
+
                 try:
-                    created_dt = datetime.strptime(created_raw[:19], '%Y-%m-%dT%H:%M:%S')
+                    created_dt = datetime.strptime(
+                        created_raw[:19], '%Y-%m-%dT%H:%M:%S')
                     created = created_dt.strftime('%Y-%m-%d %H:%M')
                 except:
                     created = created_raw[:16] if created_raw else 'Unknown'
 
+                status = 'Unknown'
+                if fields.get('status'):
+                    status = fields['status'].get('name', 'Unknown')
+
+                priority = 'Medium'
+                if fields.get('priority'):
+                    priority = fields['priority'].get('name', 'Medium')
+
                 tickets.append({
                     'key': issue.get('key', 'Unknown'),
-                    'summary': fields.get('summary') or 'No summary',
-                    'status': (fields.get('status') or {}).get('name', 'Unknown'),
-                    'priority': (fields.get('priority') or {}).get('name', 'Medium'),
+                    'summary': fields.get('summary') or issue.get('key', 'No summary'),
+                    'status': status,
+                    'priority': priority,
                     'created': created
                 })
-            return jsonify({"tickets": tickets, "total": len(tickets)})
+
+            return jsonify({
+                "tickets": tickets,
+                "total": len(tickets),
+                "raw_count": len(raw_issues)
+            })
         else:
-            return jsonify({"error": f"Jira API error: {response.status_code} — {response.text}"})
+            return jsonify({
+                "error": f"Jira API error: {response.status_code}",
+                "details": response.text
+            })
 
     except requests.exceptions.Timeout:
         return jsonify({"error": "Jira API timeout"})
     except Exception as e:
         return jsonify({"error": str(e)})
 
-    except requests.exceptions.Timeout:
-        return jsonify({"error": "Jira API timeout"})
-    except Exception as e:
-        return jsonify({"error": str(e)})
+@app.route('/api/debug')
+def api_debug():
+    return jsonify({
+        "JIRA_EMAIL": JIRA_EMAIL,
+        "JIRA_SITE": JIRA_SITE,
+        "JIRA_PROJECT": JIRA_PROJECT,
+        "JIRA_TOKEN": "SET" if JIRA_API_TOKEN else "NOT SET"
+    })
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
