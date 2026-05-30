@@ -43,7 +43,7 @@ def create_incident(status_code):
                     }
                 ]
             },
-            "issuetype": {"name": "Incident"},
+            "issuetype": {"name": "[System]" "Incident"},
             "priority": {"name": "High"}
         }
     })
